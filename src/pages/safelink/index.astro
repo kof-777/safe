@@ -1,0 +1,11 @@
+---
+const go = Astro.url.searchParams.get("go");
+
+// kalau tidak ada parameter → lempar ke generator
+if (!go) {
+  return Astro.redirect("/gen");
+}
+
+// kalau ada → lanjut ke artikel
+return Astro.redirect(`/safelink/artikel?url=${go}`);
+---
