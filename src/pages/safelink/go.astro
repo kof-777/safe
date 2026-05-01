@@ -1,0 +1,36 @@
+---
+const param = Astro.url.searchParams.get("url");
+
+let target = null;
+
+if (param) {
+  try {
+    target = atob(param);
+  } catch {}
+}
+
+if (!target) {
+  return Astro.redirect("/gen");
+}
+---
+
+<html>
+  <body>
+    <h2>Tunggu 5 detik...</h2>
+
+    <button id="btn" disabled>Buka Link</button>
+
+    <script>
+      const btn = document.getElementById("btn");
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerText = "Klik untuk lanjut";
+      }, 5000);
+
+      btn.onclick = () => {
+        window.location.href = "{target}";
+      };
+    </script>
+  </body>
+</html>
