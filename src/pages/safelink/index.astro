@@ -1,9 +1,5 @@
 ---
 const go = Astro.url.searchParams.get("go");
-
-if (!go) {
-  return Astro.redirect("/gen");
-}
 ---
 
 <html>
@@ -13,17 +9,23 @@ if (!go) {
   <body>
     <h1>Artikel Pembuka</h1>
 
-    <p>
-      Ini halaman safelink pertama. Biasanya diisi artikel atau konten biar
-      terlihat natural.
-    </p>
+    {go ? (
+      <>
+        <p>
+          Ini halaman safelink pertama. Silakan lanjut ke halaman berikutnya.
+        </p>
 
-    <p>
-      Silakan klik tombol di bawah untuk melanjutkan ke halaman berikutnya.
-    </p>
-
-    <a href={`/safelink/artikel?url=${go}`}>
-      <button>Lanjut ke Artikel</button>
-    </a>
+        <a href={`/safelink/artikel?url=${go}`}>
+          <button>Lanjut ke Artikel</button>
+        </a>
+      </>
+    ) : (
+      <>
+        <p>Link tidak valid.</p>
+        <a href="/gen">
+          <button>Kembali ke Generator</button>
+        </a>
+      </>
+    )}
   </body>
 </html>
