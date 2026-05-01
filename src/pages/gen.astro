@@ -1,37 +1,42 @@
----
-const param = Astro.url.searchParams.get("url");
-
-let target = null;
-
-if (param) {
-  try {
-    target = atob(param);
-  } catch {}
-}
-
-if (!target) {
-  return Astro.redirect("/gen");
-}
----
-
 <html>
-  <body>
-    <h2>Tunggu 5 detik...</h2>
+  <head>
+    <title>Safelink Generator</title>
+  </head>
 
-    <button id="btn" disabled>Buka Link</button>
+  <body>
+    <h1>Safelink Generator</h1>
+
+    <input id="url" placeholder="Masukkan URL..." />
+    <button id="btn">Generate</button>
+
+    <p id="result"></p>
 
     <script>
-      const target = "{target}"; // 👈 inject dari Astro ke JS
       const btn = document.getElementById("btn");
 
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.innerText = "Klik untuk lanjut";
-      }, 5000);
+      btn.addEventListener("click", () => {
+        const input = document.getElementById("url").value.trim();
 
-      btn.onclick = () => {
-        window.location.href = target;
-      };
+        if (!input) {
+          alert("Masukkan URL dulu!");
+          return;
+        }
+
+        try {
+          new URL(input);
+        } catch {
+          alert("URL tidak valid!");
+          return;
+        }
+
+        const encoded = btoa(input);
+
+        const safelink =
+          window.location.origin + "/safelink/?go=" + encoded;
+
+        document.getElementById("result").innerHTML =
+          `<a href="${safelink}" target="_blank">${safelink}</a>`;
+      });
     </script>
   </body>
 </html>
