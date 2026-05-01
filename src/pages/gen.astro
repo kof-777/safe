@@ -1,27 +1,54 @@
 <html>
   <head>
     <title>Safelink Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 50px auto;
+        text-align: center;
+      }
+
+      input {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+
+      #result {
+        margin-top: 20px;
+        word-break: break-all;
+      }
+    </style>
   </head>
 
   <body>
     <h1>Safelink Generator</h1>
 
-    <input id="url" placeholder="Masukkan URL..." />
-    <button id="btn">Generate</button>
+    <input id="url" placeholder="Masukkan URL tujuan..." />
+    <br />
+    <button id="generateBtn">Generate</button>
 
     <p id="result"></p>
 
     <script>
-      const btn = document.getElementById("btn");
+      const btn = document.getElementById("generateBtn");
 
       btn.addEventListener("click", () => {
         const input = document.getElementById("url").value.trim();
 
+        // validasi kosong
         if (!input) {
           alert("Masukkan URL dulu!");
           return;
         }
 
+        // validasi URL
         try {
           new URL(input);
         } catch {
@@ -29,14 +56,25 @@
           return;
         }
 
-        const encoded = btoa(input);
+        // encode (AMAN)
+        const encoded = encodeURIComponent(btoa(input));
 
-        const safelink =
-          window.location.origin + "/safelink/?go=" + encoded;
+        // hasil safelink (PENTING)
+        const safelink = "/safelink/?go=" + encoded;
 
-        document.getElementById("result").innerHTML =
-          `<a href="${safelink}" target="_blank">${safelink}</a>`;
+        // tampilkan hasil
+        document.getElementById("result").innerHTML = `
+          <p>Safelink kamu:</p>
+          <a href="${safelink}" target="_blank">${safelink}</a>
+          <br><br>
+          <button onclick="copyLink('${safelink}')">Copy Link</button>
+        `;
       });
+
+      function copyLink(link) {
+        navigator.clipboard.writeText(link);
+        alert("Link berhasil di-copy!");
+      }
     </script>
   </body>
 </html>
