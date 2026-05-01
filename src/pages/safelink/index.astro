@@ -1,31 +1,26 @@
 ---
-const go = Astro.url.searchParams.get("go");
+const url = Astro.url;
+const go = url.searchParams.get("go");
 ---
 
-<html>
-  <head>
-    <title>Safelink</title>
-  </head>
-  <body>
-    <h1>Artikel Pembuka</h1>
+<h1>Safelink</h1>
 
-    {go ? (
-      <>
-        <p>
-          Ini halaman safelink pertama. Silakan lanjut ke halaman berikutnya.
-        </p>
+<p>DEBUG URL: {url.href}</p>
+<p>DEBUG GO: {go}</p>
 
-        <a href={`/safelink/artikel?url=${go}`}>
-          <button>Lanjut ke Artikel</button>
-        </a>
-      </>
-    ) : (
-      <>
-        <p>Link tidak valid.</p>
-        <a href="/gen">
-          <button>Kembali ke Generator</button>
-        </a>
-      </>
-    )}
-  </body>
-</html>
+{go && go !== "null" ? (
+  <>
+    <p>Link valid, lanjutkan</p>
+
+    <a href={`/safelink/artikel?url=${go}`}>
+      <button>Lanjut ke Artikel</button>
+    </a>
+  </>
+) : (
+  <>
+    <p style="color:red;">Link tidak valid (param kosong)</p>
+    <a href="/gen">
+      <button>Kembali ke Generator</button>
+    </a>
+  </>
+)}
