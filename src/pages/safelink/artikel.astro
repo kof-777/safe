@@ -1,0 +1,22 @@
+---
+const url = Astro.url.searchParams.get("url");
+
+if (!url) {
+  return Astro.redirect("/gen");
+}
+---
+
+<html>
+  <head>
+    <title>Artikel Lanjutan</title>
+  </head>
+  <body>
+    <h1>Artikel Lanjutan</h1>
+
+    <p>Ini halaman kedua sebelum ke link tujuan.</p>
+
+    <a href={`/safelink/go?url=${url}`}>
+      <button>Lanjut ke Tujuan</button>
+    </a>
+  </body>
+</html>
