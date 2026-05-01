@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Generator Safelink</title>
+  </head>
+  <body>
+    <h1>Buat Safelink</h1>
+
+    <input id="url" placeholder="Masukkan URL..." />
+    <button onclick="generate()">Generate</button>
+
+    <p id="result"></p>
+
+    <script>
+      function generate() {
+        const input = document.getElementById("url").value;
+
+        if (!input) {
+          alert("Masukkan URL dulu");
+          return;
+        }
+
+        const encoded = btoa(input);
+
+        // 🔥 hasil masuk ke /blog/
+        const link = `${window.location.origin}/blog/?go=${encoded}`;
+
+        document.getElementById("result").innerHTML =
+          `<a href="${link}" target="_blank">${link}</a>`;
+      }
+    </script>
+  </body>
+</html>
